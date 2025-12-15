@@ -1,16 +1,14 @@
-"""
-Client Program
+# Client Program
 
-Connects to the server and sends commands with byte-count verification.
+# Connects to the server and sends commands with byte-count verification.
 
-Protocol: Send length (4 bytes) + data
-Example: "0015" + "dir C:\Users" (15 bytes)
+# Protocol: Send length (4 bytes) + data
+# Example: "0015" + "dir C:\Users" (15 bytes)
 
-Author: Ariel Melamed Cohen
-Grade: 11th Grade, 3rd Class
-Date: 14/11/2025
+# Author: Ariel Melamed Cohen
+# Grade: 11th Grade, 3rd Class
+# Date: 14/11/2025
 
-"""
 
 import socket
 import logging
@@ -86,12 +84,12 @@ def receive_message(client_socket):
 
     if actual_length == expected_length:
         logging.info(
-            f"✓ Verified: received {actual_length} bytes (matches expected)"
+            f"Verified: received {actual_length} bytes (matches expected)"
         )
         return data.decode()
     else:
         logging.warning(
-            f"✗ Mismatch: expected {expected_length} bytes "
+            f"Erorr: expected {expected_length} bytes "
             f"but got {actual_length}"
         )
         return None
@@ -113,6 +111,16 @@ def main():
         logging.info("Connected to server with byte-count protocol")
 
         try:
+            print(          "Commands you can use: \n", 
+            "  DIR <path> - See what files are in a folder \n",
+            "  DELETE <path> - Remove a file \n",
+            "  COPY <source>,<dest> - Copy a file \n",
+            "  EXECUTE <path> - Run a program \n",
+            "  TAKE SCREENSHOT - Take a picture of the screen \n",
+            "  SAVE SCREENSHOT <path> - Save the screenshot \n",
+            "  HELP - Show this message \n",
+            "  EXIT - Disconnect \n")
+
             while True:
                 msg = input("Enter command: ")
                 assert isinstance(msg, str), "Input must be a string"

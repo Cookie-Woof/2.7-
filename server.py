@@ -1,21 +1,21 @@
-"""
-Client and Server Program - SERVER SIDE
 
-This server lets you remotely manage files on a computer.
+# Client and Server Program - SERVER SIDE
 
-Commands you can use:
-    - DIR: See what files are in a folder
-    - DELETE: Remove a file
-    - COPY: Copy the info from one file to another
-    - EXECUTE: Run a program
-    - TAKE SCREENSHOT: Take a picture of the screen
-    - SAVE SCREENSHOT: Save the screenshot you took
-    - EXIT: Disconnect
+# This server lets you remotely manage files on a computer.
 
-Author: Ariel Melamed Cohen
-Grade: 11th Grade, 3rd Class
-Date: 14/11/2025
-"""
+# Commands you can use:
+#     - DIR: See what files are in a folder
+#     - DELETE: Remove a file
+#     - COPY: Copy the info from one file to another
+#     - EXECUTE: Run a program
+#     - TAKE SCREENSHOT: Take a picture of the screen
+#     - SAVE SCREENSHOT: Save the screenshot you took
+#     - EXIT: Disconnect
+
+# Author: Ariel Melamed Cohen
+# Grade: 11th Grade, 3rd Class
+# Date: 14/11/2025
+
 
 import socket
 import logging
