@@ -13,7 +13,7 @@
 import socket
 import logging
 
-IP = "192.168.50.104"
+IP = "192.168.50.246"
 PORT = 6000
 
 logging.basicConfig(
@@ -34,17 +34,11 @@ def send_message(client_socket, message):
     """
     assert isinstance(message, str), "Message must be a string"
     assert len(message) > 0, "Message cannot be empty"
-    
-    # Convert message to bytes and count them
     message_bytes = message.encode()
     message_length = len(message_bytes)
     assert message_length < 10000, "Message too large (max 9999 bytes)"
-
-    # Create the length prefix (4 digits, like "0015")
     length_counter = f"{message_length:04d}".encode()
     assert len(length_counter) == 4, "Length prefix must be exactly 4 bytes"
-
-    # Send length + message
     client_socket.send(length_counter + message_bytes)
     logging.info(f"Sent {message_length} bytes: {message}")
 
@@ -135,7 +129,20 @@ def main():
 
                 assert isinstance(response, str), "Response must be a string"
 
-                print("Server:", response)
+                # Check if server is sending a screenshot
+                if response.startswith("PHOTO:"):
+                    image_path = response.split("PHOTO:")[1]
+                    
+                    try:
+                        from PIL import Image
+                        img = Image.open(image_path)
+                        img.show()
+                        print(f"Screenshot displayed from: {image_path}")
+                    except Exception as e:
+                        print(f"Error displaying screenshot: {e}")
+                else:
+                    # Normal message
+                    print("Server:", response)
 
                 if msg.lower() == "exit":
                     logging.info("Exiting client")
