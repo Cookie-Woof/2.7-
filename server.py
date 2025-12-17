@@ -24,6 +24,7 @@ import glob
 import shutil
 import subprocess
 import pyautogui
+import base64
 
 
 logging.basicConfig(
@@ -45,27 +46,6 @@ def check_for_path(path):
     assert isinstance(path, str), "Path must be a string"
     return os.path.exists(path)
 
-
-def save_screenshot(path):
-    """
-    Saves the last screenshot that the program had took to a file.
-    The path is where you want to save the image.
-    """
-    global last_screenshot
-    assert isinstance(path, str), "Path must be a string"
-    
-    try:
-        if last_screenshot is None:
-            return ("Error: No screenshot to save. "
-                    "Please use 'take screenshot' first!")
-
-        last_screenshot.save(path)
-        return f"Screenshot saved to: {path}"
-    except Exception as e:
-        logging.error(f"Problem saving screenshot: {e}")
-        return f"Error saving screenshot: {e}"
-
-
 def take_screenshot():
     """
     Takes a screenshot of the entire screen and stores it in the program's
@@ -82,6 +62,35 @@ def take_screenshot():
         logging.error(f"Problem taking screenshot: {e}")
         return f"Error couldn't take a screenshot: {e}"
 
+
+def save_screenshot(path):
+    """
+    Saves the last screenshot to 'screen.jpg' in the specified folder.
+    Path should be a folder path like 'c:\\users\\user\\downloads'
+    """
+    global last_screenshot
+
+    assert isinstance(path, str), "Path must be a string"
+    
+    try:
+        if last_screenshot is None:
+            return ("Error: No screenshot to save. "
+                    "Please use 'take screenshot' first!")
+
+        full_path = os.path.join(path, 'screen.jpg')
+        last_screenshot.save(full_path)
+        try:
+            if full_path is None or not os.path.exists(full_path):
+                return "Error: No screenshot to send!"
+
+            return f"PHOTO:{full_path}"
+        except Exception as e:
+            logging.error(f"Problem sending screenshot: {e}")
+            return f"Error: {e}"
+            return f"Screenshot saved to: {full_path}"
+    except Exception as e:
+        logging.error(f"Problem saving screenshot: {e}")
+        return f"Error saving screenshot: {e}"
 
 def dir_command(path):
     """
